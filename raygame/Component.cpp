@@ -2,29 +2,37 @@
 
 Component::Component()
 {
+	m_owner = nullptr;
+	m_name = "Null";
+	m_started = false;
 }
 
 Component::~Component()
 {
 }
 
-Component::Component(Actor*, const char*)
+Component::Component(Actor* actor, const char* name)
 {
+	m_owner = actor;
+	m_name = name;
+	m_started = false;
 }
 
-void Component::getName(const char*)
+const char* Component::getName()
 {
+	return m_name;
 }
 
-void Component::getOwner(Actor*)
+Actor* Component::getOwner()
 {
+	return m_owner;
 }
 
 void Component::start()
 {
 }
 
-void Component::update(float)
+void Component::update(float deltaTime)
 {
 }
 

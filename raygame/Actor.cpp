@@ -2,6 +2,7 @@
 #include "Transform2D.h"
 #include <string.h>
 #include "Collider.h"
+#include "Component.h"
 
 Actor::Actor()
 {
@@ -31,23 +32,77 @@ void Actor::onCollision(Actor* other)
 {
 }
 
-Component* Actor::addComponent(Component*)
+Component* Actor::addComponent(Component* component)
 {
+    if (component->getOwner() != nullptr)
     return nullptr;
+
+    Component** tempArray = new Component * [m_componentCount + 1];
+
+    int j = 0;
+    for (int i = 0; i < m_componentCount; i++)
+    {
+        tempArray[i] = m_comp[i];
+        j++;
+    }
+
+    tempArray[j] = component;
+    m_componentCount + 1;
+    m_comp = tempArray;
+
+    return component;
 }
 
-bool Actor::removeComponent(Component*)
+bool Actor::removeComponent(Component* component)
 {
+    if(component->getOwner() != nullptr)
+    return false;
+
+    bool componentRemoved = false;
+
+    Component** newArray = new Component * [m_componentCount - 1];
+
+    int j = 0;
+
+    for (int i = 0; i < m_componentCount; i++)
+    {
+        if (component != m_comp[i])
+        {
+            newArray[j] = m_comp[i];
+            j++;
+        }
+        else
+        {
+            componentRemoved = true;
+        }
+    }
+
+    if (componentRemoved)
+    {
+        m_comp = newArray;
+        m_componentCount--;
+    }
+
+    return componentRemoved;
+}
+
+bool Actor::removeComponent(const char* name)
+{
+    for (int i = 0; i < m_componentCount; i++)
+    {
+        if (m_comp[i]->getName() == name)
+            return m_comp[i];
+    }
     return false;
 }
 
-bool Actor::removeComponent(const char*)
+Component* Actor::getComponent(const char* name)
 {
-    return false;
-}
-
-Component* Actor::getComponent(const char*)
-{
+    for (int i = 0; i < m_componentCount; i++)
+    {
+        if (m_comp[i]->getName() == name)
+            return m_comp[i];
+    }
     return nullptr;
 }
 
