@@ -58,7 +58,12 @@ Component* Actor::addComponent(Component* component)
 
     //Set the last value in the new array to be the actor we want to add
     tempArray[m_componentCount] = component;
-    //set old array to hold the values of the new array
+    if (m_componentCount > 1)
+        //set old array to hold the values of the new array
+        delete[] m_comp;
+    else if (m_componentCount == 1)
+        delete m_comp;
+    
     m_comp = tempArray;
     m_componentCount++;
 
