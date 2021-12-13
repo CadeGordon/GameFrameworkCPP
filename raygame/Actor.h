@@ -40,6 +40,12 @@ public:
     const char* getName() { return m_name; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name"></param>
+    void setName(const char* name) { m_name = name; }
+
+    /// <summary>
     /// Called during the first update after an actor is added to a scene.
     /// </summary>
     virtual void start();
@@ -78,20 +84,37 @@ public:
     virtual void onCollision(Actor* other);
 
 
-    
-    Component* addComponent(Component*);
+    /// <summary>
+    /// Adds a component to the end of the component array
+    /// </summary>
+    /// <param name="component">the new component to attack to the actor</param>
+    /// <returns>A reference to the component added to the array</returns>
+    Component* addComponent(Component* component);
 
 
+    /// <summary>
+    /// Removes the first instacne found that matches the component reference
+    /// </summary>
+    /// <param name="component">The compoenet to remove from the array</param>
+    /// <returns>False if the component is not in the array</returns>
+    bool removeComponent(Component* component);
 
-    bool removeComponent(Component*);
+
+    /// <summary>
+    /// Removes the first instacne found that matches the component name
+    /// </summary>
+    /// <param name="component">The compoenet to remove from the array</param>
+    /// <returns>False if the component is not in the array</returns>
+    bool removeComponent(const char* name);
 
 
-
-    bool removeComponent(const char*);
-
-
-
-    Component* getComponent(const char*);
+    /// <summary>
+    /// Gets the first component instance attached to this actor 
+    /// that matches the name
+    /// </summary>
+    /// <param name="componentName">The name of the component instance</param>
+    /// <returns>the name of the component instance</returns>
+    Component* getComponent(const char* componentName);
 
 
     
@@ -103,7 +126,7 @@ private:
     bool m_started;
     Transform2D* m_transform;
     Collider* m_collider;
-    int m_componentCount;
+    unsigned int m_componentCount;
     Component** m_comp;
     
     

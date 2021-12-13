@@ -3,7 +3,7 @@
 Component::Component()
 {
 	m_owner = nullptr;
-	m_name = "Null";
+	m_name = nullptr;
 	m_started = false;
 }
 
@@ -11,11 +11,17 @@ Component::~Component()
 {
 }
 
-Component::Component(Actor* actor, const char* name)
+void Component::assignOwner(Actor* owner)
 {
-	m_owner = actor;
+	if (!getOwner())
+		return;
+
+	m_owner = owner;
+}
+
+Component::Component(const char* name)
+{
 	m_name = name;
-	m_started = false;
 }
 
 const char* Component::getName()
